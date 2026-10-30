@@ -12,7 +12,9 @@
 [![Bijoy Tutor](https://img.shields.io/badge/Bijoy_Tutor-/tutor-1d4ed8?style=for-the-badge)](https://bijoycharalikho.app/tutor)
 [![Edge API](https://img.shields.io/badge/Serverless_Edge-Cloudflare_Pages-f38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://bijoycharalikho.app/leaderboard)
 
-### 🌐 **Live Application:** **[https://bijoycharalikho.app](https://bijoycharalikho.app)**
+<h2 align="center">
+  Try it live: <a href="https://bijoycharalikho.app">🔗 https://bijoycharalikho.app</a>
+</h2>
 
 </div>
 
