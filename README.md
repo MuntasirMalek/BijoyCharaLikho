@@ -2,7 +2,7 @@
 
 # BijoyCharaLikho.app — বিজয় অ্যাপ ছাড়াই বাংলায় লিখুন!
 
-### Browser-Native Bangla (Bijoy Bayanno / Ekushe) & English Typing Tutor and Government Exam Simulator
+### Browser-Native Bangla (Avro Phonetic & Bijoy Bayanno/Ekushe) and English Typing Tutor, Government Exam Simulator & 2D Survival Game
 
 [![Live App](https://img.shields.io/badge/Live_App-bijoycharalikho.app-14532d?style=for-the-badge&logo=cloudflare&logoColor=white)](https://bijoycharalikho.app)
 [![Platform](https://img.shields.io/badge/OS-macOS_%7C_Windows_%7C_Linux-0f172a?style=for-the-badge)](https://bijoycharalikho.app)
@@ -40,11 +40,14 @@ Every year in Bangladesh, hundreds of thousands of candidates sit for government
 
 ## ✨ Key Features
 
-### 1. Zero-Install In-Browser Bijoy Engine (`js/bijoy.js`)
-- Intercepts physical key positions via `KeyboardEvent.code`, allowing users to keep their OS keyboard set to **English (US / ABC)** on Mac, Windows, or Linux while typing authentic **Bijoy Bayanno / Ekushe** keystrokes in real time.
-- **Full Pre-Kar Reordering State Machine:** Typing `d` (`ি`), `c` (`ে`), or `Shift+C` (`ৈ`) *before* a consonant or multi-consonant conjunct automatically floats the vowel sign across the entire cluster (`d + j + g + k` $\rightarrow$ `ক্তি`, `c + j + f` $\rightarrow$ `কো`, `c + j + Shift+X` $\rightarrow$ `কৌ`).
+### 1. Zero-Install In-Browser Avro Phonetic & Bijoy Engine (`js/bijoy.js`)
+- **Unified 3-Track Order Everywhere (`/practice`, `/exam`, and `/game`):**
+  1. **বাংলা (অভ্র / Avro Phonetic):** Type Bangla phonetically with English letters (`ami banglay likhi` $\rightarrow$ `আমি বাংলায় লিখি`) with real-time word-aware phonetic conversion, per-keystroke Backspace undo, and live Roman key hints (`toAvroKeys` & `remainingAvroKeys`).
+  2. **বাংলা (বিজয় / Bijoy Bayanno & Ekushe):** Intercepts physical key positions via `KeyboardEvent.code`, allowing users to keep their OS keyboard set to **English (US / ABC)** on Mac, Windows, or Linux while typing authentic **Bijoy Bayanno / Ekushe** keystrokes in real time.
+  3. **English (QWERTY):** Full English touch-typing track with live key and Shift guidance.
+- **Full Bijoy Pre-Kar Reordering State Machine:** Typing `d` (`ি`), `c` (`ে`), or `Shift+C` (`ৈ`) *before* a consonant or multi-consonant conjunct automatically floats the vowel sign across the entire cluster (`d + j + g + k` $\rightarrow$ `ক্তি`, `c + j + f` $\rightarrow$ `কো`, `c + j + Shift+X` $\rightarrow$ `কৌ`).
 - **Complete Conjunct & Modifier Support:** Handles Hasanta link (`g` $\rightarrow$ `্`, `g + g` $\rightarrow$ visible `্‌`), post-cluster Reph (`Shift+A` $\rightarrow$ `র্`, e.g., `j + m + Shift+A` $\rightarrow$ `কর্ম`), Ra-phala (`z` $\rightarrow$ `্র`), Ya-phala (`Shift+Z` $\rightarrow$ `্য`), and independent vowel composition (`g + d` $\rightarrow$ `ই`, `g + f` $\rightarrow$ `আ`).
-- **Inverse Keystroke Solver (`toBijoyKeys` & `remainingBijoyKeys`):** Deconstructs any arbitrary Unicode Bangla word into its exact Bijoy key sequence and tracks partial key progress in real time.
+- **Inverse Keystroke Solvers (`toAvroKeys` / `remainingAvroKeys` & `toBijoyKeys` / `remainingBijoyKeys`):** Deconstructs any Unicode Bangla word into its exact Avro phonetic or Bijoy key sequence and tracks partial key progress in real time.
 
 ### 2. Interactive "Learn & Memorize Bijoy" Tutor (`js/tutor.js`)
 - Modeled after the classic **Bijoy Ekushe** step-by-step typing curriculum (`bijoyekushe.net.bd`), upgraded for modern browsers:
@@ -65,15 +68,24 @@ Every year in Bangladesh, hundreds of thousands of candidates sit for government
   - **International 5-Stroke Method:**
     $$\text{Gross WPM} = \frac{\text{Total Keystrokes}}{5 \times \text{Minutes}}$$
 - **Dynamic Programming Word Alignment:** Uses Wagner–Fischer edit-distance alignment over normalized Unicode tokens so that skipping or inserting a single word never desynchronizes the rest of the exam passage.
-- **Exam Hall Mode & Combined Bilingual Test:** Supports distraction-free Exam Hall mode (no hints, optional **Strict No-Backspace** lock), back-to-back **Bangla + English Combined Exams**, printable evaluation sheets, and a one-click **"Practice Missed Words"** drill generator.
+- **Exam Hall Mode & Multi-Track Evaluation:** Supports distraction-free Exam Hall mode (no hints, optional **Strict No-Backspace** lock) across **Bangla (Avro)**, **Bangla (Bijoy)**, and **English (QWERTY)** tracks, printable evaluation sheets, and a one-click **"Practice Missed Words"** drill generator.
 
-### 4. Dynamic Cloudflare Edge API (`functions/api/stats.js`)
-- Powered by **Cloudflare Pages Functions** (serverless edge workers) with optional **Cloudflare KV** persistence.
-- Tracks live daily examinee counts, global test totals, national top-speed leaderboards, and calculates each candidate's real-time percentile rank upon test completion.
+### 4. Dynamic Cloudflare Edge API & Real-Time Presence (`functions/api/stats.js` & `functions/_lib/attempts.js`)
+- Powered by **Cloudflare Pages Functions** (serverless edge workers) backed by **Cloudflare D1**.
+- Tracks real-time active users practicing on the site (`"{count} জন আজ অনুশীলন করছেন"`), daily examinee counts, global test totals, national top-speed leaderboards, and calculates each candidate's empirical percentile rank upon test completion.
 
 ### 5. Non-Intrusive Conditional Post-Test Ad Engine (`js/ads.js`)
 - Strictly zero ads on page load, hero, tutor, or during typing tests.
 - Triggers a sponsored popup modal **only after** a visitor completes a typing test, prioritizing a **Video Ad** first and automatically falling back to an **Image Banner Ad** if no video stream is available.
+
+### 6. "Crocodile Swarm" (কুমির তাড়াও) — 2D Bangla & English Survival Typing Game (`js/croc-core.js` & `js/croc-game.js`)
+- **Sundarbans River Survival Arena (`/game`):** Defend a stranded survivor on a wooden bamboo raft at the center of a Sundarbans mangrove river while hungry crocodiles swim in from 360°.
+- **Three Enemy Tiers & Progressive Waves:**
+  1. **Small Crocodiles (Fast):** 2–3 letter simple Bangla words (`জল`, `বন`, `মন`, `কলম`) or short English words (`sun`, `map`, `river`).
+  2. **Medium Crocodiles (Normal):** Words with vowel signs / Kar modifiers (`নদী`, `মাছ`, `পাখি`, `কুমির`) or medium English words (`forest`, `bamboo`, `island`).
+  3. **Giant Boss Crocodiles (High Threat):** Longer words & conjunct consonants / Juktobornos (`বিজ্ঞান`, `স্বপ্ন`, `পরীক্ষা`, `সুন্দরবন`) or complex English words (`mangrove`, `crocodile`, `adventure`).
+- **Triple Input Mode Support:** Play seamlessly in the unified track order using **1. ফোনেটিক (Avro)** (`jol` $\rightarrow$ `জল`), **2. বিজয় (Bijoy)** (`js/bijoy.js`), or **3. English** (`a-z` English crocodile waves).
+- **Target Locking, Projectiles & High-Stakes Mistake Penalty:** Correct keystrokes lock onto the matching crocodile and hurl silver Hilsa fish, green coconuts, or hydro oar waves along parabolic arcs. Pressing a wrong key triggers a red danger flash and causes the crocodile to lunge forward!
 
 ---
 
@@ -83,12 +95,14 @@ Every year in Bangladesh, hundreds of thousands of candidates sit for government
 bijoycharalikho.app/
 ├── index.html               # SEO-optimized main application shell + JSON-LD schema
 ├── css/
-│   └── style.css            # Responsive UI, Hero layout, Virtual Keyboard, Dark & Print themes
+│   └── style.css            # Responsive UI, Hero layout, Virtual Keyboard, Arcade Game & Dark themes
 ├── js/
 │   ├── bijoy.js             # In-browser Bijoy Bayanno FST engine & inverse keystroke solver
 │   ├── tutor.js             # 14-stage Bijoy Ekushe interactive memorization tutor & finger map
 │   ├── stats.js             # Word-level DP alignment & dual WPM/Accuracy scoring engine
 │   ├── passages.js          # Built-in Bangla & English exam passages, official letters & drills
+│   ├── croc-core.js         # Crocodile Swarm word banks, phonetic transliterator & targeting logic
+│   ├── croc-game.js         # 60fps HTML5 Canvas 2D Sundarbans river survival game engine & audio FX
 │   ├── ads.js               # Post-test conditional popup ad controller (Video -> Banner fallback)
 │   └── app.js               # Main UI state controller, audio synthesizer & Edge API client
 ├── functions/
@@ -96,7 +110,8 @@ bijoycharalikho.app/
 │       └── stats.js         # Cloudflare Pages Serverless Function for live stats & leaderboard
 ├── assets/                  # Optimized Hero illustration, brand wordmark & OpenGraph banner
 ├── tests/
-│   └── engine.test.js       # Automated Node.js test suite (FST, round-trip & WPM scoring)
+│   ├── engine.test.js       # Automated Node.js test suite (FST, round-trip & WPM scoring)
+│   └── croc-game.test.js    # Automated Node.js test suite for Crocodile Swarm game mechanics
 ├── sitemap.xml              # Search engine sitemap for bijoycharalikho.app
 ├── robots.txt               # Crawler directives
 └── _headers                 # Cloudflare Pages security & caching headers
@@ -123,22 +138,23 @@ npm start
 Keep this guide handy whenever you return to the codebase for updates, adding passages, or expanding features.
 
 ### 1. The Multi-Route Architecture & Generation
-- **Source of Truth:** [`index.html`](file:///Users/utsho/1/index.html) is the master application template.
-- **Standalone Route Files:** To ensure direct URL visits (e.g. `/practice`, `/exam`, `/tutor`, `/juktobarna`, `/leaderboard`) return HTTP 200 with unique SEO titles and OpenGraph tags on Cloudflare Pages, route files are generated automatically.
+- **Source of Truth:** `index.html` is the master application template.
+- **Standalone Route Files:** To ensure direct URL visits (e.g. `/practice`, `/exam`, `/tutor`, `/juktobarna`, `/leaderboard`, `/game`) return HTTP 200 with unique SEO titles and OpenGraph tags on Cloudflare Pages, route files are generated automatically.
 - **Workflow:** Whenever you modify navigation, header, footer, or core layout in `index.html`, simply run:
   ```bash
   npm test
   ```
-  This runs [`scripts/generate-routes.js`](file:///Users/utsho/1/scripts/generate-routes.js) first, regenerating:
+  This runs `scripts/generate-routes.js` first, regenerating:
   - `practice.html` $\rightarrow$ `/practice`
   - `exam.html` $\rightarrow$ `/exam`
   - `tutor.html` $\rightarrow$ `/tutor`
   - `juktobarna.html` $\rightarrow$ `/juktobarna`
   - `leaderboard.html` $\rightarrow$ `/leaderboard`
-  ...and then runs all 11 unit test suites in [`tests/engine.test.js`](file:///Users/utsho/1/tests/engine.test.js).
+  - `game.html` $\rightarrow$ `/game`
+  ...and then runs all 108 automated tests in `tests/*.test.js`.
 
 ### 2. Adding or Editing Typing Passages (`js/passages.js`)
-Passages for practice and government mock tests live in [`js/passages.js`](file:///Users/utsho/1/js/passages.js). To add a new passage, append to `MudraPassages.passages`:
+Passages for practice and government mock tests live in `js/passages.js`. To add a new passage, append to `MudraPassages`:
 
 ```javascript
 {
@@ -155,7 +171,7 @@ Passages for practice and government mock tests live in [`js/passages.js`](file:
 > After adding any Bangla passage, run `npm test`. The test suite automatically runs every single word in every passage through the Bijoy FST engine to guarantee 100% typing validity!
 
 ### 3. Updating the Bijoy Memorization Tutor (`js/tutor.js`)
-The 14-stage interactive tutor lives in [`js/tutor.js`](file:///Users/utsho/1/js/tutor.js). Each stage defines:
+The 14-stage interactive tutor lives in `js/tutor.js`. Each stage defines:
 - `char`: The target character, vowel sign, or conjunct.
 - `keys`: The exact Bijoy key sequence (e.g. `g + d` for `ই`, `d + j + g + k` for `ক্তি`).
 - `hand`: `'left'` or `'right'`
@@ -165,7 +181,7 @@ The 14-stage interactive tutor lives in [`js/tutor.js`](file:///Users/utsho/1/js
 
 ### 4. Bilingual UI Localization (`js/app.js`)
 The site supports instant switching between Bengali and English:
-- **Dictionary:** All translations are defined in `UI_I18N` inside [`js/app.js`](file:///Users/utsho/1/js/app.js) (`UI_I18N.bn` and `UI_I18N.en`).
+- **Dictionary:** All translations are defined in `UI_I18N` inside `js/app.js` (`UI_I18N.bn` and `UI_I18N.en`).
 - **DOM Binding:** Add `data-i18n="key_name"` to any HTML element. Toggling the `বাংলা | EN` pill automatically translates all bound elements.
 - **Persistence:** Saved in `localStorage` under key `mudrakkhor_ui_lang_v1`.
 - **Query Parameter:** Force language via URL: `https://bijoycharalikho.app/?ui=en` or `?ui=bn`.
@@ -177,8 +193,8 @@ The site supports instant switching between Bengali and English:
 
 ### 6. Cloudflare Pages & Cache-Busting Deployment
 - **Git Push Deployment:** Pushing any commit to branch `main` on GitHub (`https://github.com/MuntasirMalek/bijoycharalikho.app.git`) automatically triggers a Cloudflare Pages production deployment.
-- **Edge Functions:** Serverless API worker lives in [`functions/api/stats.js`](file:///Users/utsho/1/functions/api/stats.js) and serves live examinee stats without a Node backend server.
-- **Cache-Busting:** When publishing updates to `css/style.css` or `js/*.js`, increment the version query string (e.g., `?v=15`) in `index.html` and run `npm test`. The `_headers` file enforces `Cache-Control: public, max-age=0, must-revalidate` so visitors always receive the latest version immediately.
+- **Edge Functions:** Serverless API worker lives in `functions/api/stats.js` and serves live examinee stats without a Node backend server.
+- **Cache-Busting:** When publishing updates to `css/style.css` or `js/*.js`, increment the version query string (e.g., `?v=27`) in `index.html` and run `npm test`. The `_headers` file enforces `Cache-Control: public, max-age=0, must-revalidate` so visitors always receive the latest version immediately.
 
 ---
 
